@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  name           String?
+  email          String    @unique
+  password       String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           Role      @default(STUDENT)
+  course         Int?      @default(1)
+  passedSubjects Int?      @default(0)
+  messages       Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  name      String?
+  type      ChatType
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum ChatType {
+  PRIVATE
+  GROUP
+  AI
+} 
