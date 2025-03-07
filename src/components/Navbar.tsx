@@ -11,6 +11,13 @@ export default function Navbar() {
 
   const isActive = (path: string) => pathname === path
 
+  const handleSignOut = async () => {
+    const confirmed = window.confirm('¿Estás seguro de que quieres cerrar sesión?')
+    if (confirmed) {
+      await signOut({ callbackUrl: '/login' })
+    }
+  }
+
   return (
     <nav className="bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,6 +42,16 @@ export default function Navbar() {
                 Chat
               </Link>
               <Link
+                href="/horarios"
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                  isActive('/horarios')
+                    ? 'border-blue-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                Horarios
+              </Link>
+              <Link
                 href="/faq"
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   isActive('/faq')
@@ -50,12 +67,19 @@ export default function Navbar() {
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
             {status === 'authenticated' ? (
               <div className="flex items-center space-x-4">
-                <span className="text-gray-700">
+                <Link
+                  href="/perfil"
+                  className={`inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md ${
+                    pathname === '/perfil'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
                   {session.user?.name || session.user?.email}
-                </span>
+                </Link>
                 <button
-                  onClick={() => signOut()}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  onClick={handleSignOut}
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 hover:text-gray-700"
                 >
                   Cerrar sesión
                 </button>

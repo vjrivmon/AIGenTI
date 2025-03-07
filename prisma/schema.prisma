@@ -15,8 +15,8 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   role           Role      @default(STUDENT)
-  course         Int?      @default(1)
-  passedSubjects Int?      @default(0)
+  course         Int       @default(1)
+  passedSubjects Int       @default(0)
   messages       Message[]
 }
 

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '../providers/AuthProvider'
 import Navbar from '../components/Navbar'
+import ChatButton from '../components/ChatButton'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <main className="container mx-auto px-4 py-8">
             {children}
           </main>
+          <ChatButton />
         </AuthProvider>
       </body>
     </html>
