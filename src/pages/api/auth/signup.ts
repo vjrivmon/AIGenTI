@@ -1,47 +1,45 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '@/lib/prisma'
-import { hash } from 'bcryptjs'
+import { prisma } from '@/lib/prisma'
+import { hash } from 'bcrypt'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método no permitido' })
+    return res.status(405).json({ message: 'Method not allowed' })
   }
 
   try {
-    const { name, email, password } = req.body
+    const { email, password, name } = req.body
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Faltan campos requeridos' })
-    }
-
-    // Verificar si el usuario ya existe
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    })
-
-    if (existingUser) {
-      return res.status(400).json({ error: 'El email ya está registrado' })
-    }
-
-    // Encriptar la contraseña
-    const hashedPassword = await hash(password, 12)
-
-    // Crear el usuario
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        role: 'USER',
+    const exists = await prisma.user.findUnique({
+      where: {
+        email
       }
     })
 
-    // Eliminar la contraseña de la respuesta
-    const { password: _, ...userWithoutPassword } = user
+    if (exists) {
+      return res.status(400).json({ message: 'User already exists' })
+    }
 
-    return res.status(201).json(userWithoutPassword)
+    const hashedPassword = await hash(password, 10)
+
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        name,
+        role: 'USER'
+      }
+    })
+
+    return res.status(201).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
+    })
   } catch (error) {
-    console.error('Error al registrar usuario:', error)
-    return res.status(500).json({ error: 'Error al registrar usuario' })
+    return res.status(500).json({ message: 'Something went wrong' })
   }
 } 
