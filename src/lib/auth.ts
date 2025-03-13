@@ -1,19 +1,19 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import prisma from './prisma'
-import bcrypt from 'bcryptjs'
+import { compare } from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'credentials',
+      name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Credenciales inválidas')
+          return null
         }
 
         const user = await prisma.user.findUnique({
@@ -22,17 +22,14 @@ export const authOptions: NextAuthOptions = {
           }
         })
 
-        if (!user || !user?.password) {
-          throw new Error('Usuario no encontrado')
+        if (!user) {
+          return null
         }
 
-        const passwordMatch = await bcrypt.compare(
-          credentials.password,
-          user.password
-        )
+        const isPasswordValid = await compare(credentials.password, user.password)
 
-        if (!passwordMatch) {
-          throw new Error('Contraseña incorrecta')
+        if (!isPasswordValid) {
+          return null
         }
 
         return {
@@ -49,5 +46,26 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login'
+  },
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      }
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as any
+        return {
+          ...token,
+          id: u.id,
+        }
+      }
+      return token
+    },
   }
 } 

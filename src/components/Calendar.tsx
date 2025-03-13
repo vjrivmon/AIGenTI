@@ -1,3 +1,5 @@
+/* The code provided is a TypeScript React component that represents a calendar. Here is a breakdown of
+what the code does: */
 'use client'
 
 import React, { useState } from 'react'

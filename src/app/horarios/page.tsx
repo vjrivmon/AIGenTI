@@ -3,6 +3,14 @@
 import React, { useState } from 'react'
 import { Calendar } from '../../components/Calendar'
 
+/*
+  TODO:
+  - Añadir un calendario para ver los exámenes
+  - Añadir un calendario para ver los trabajos y proyectos
+  - Añadir un calendario para ver los congresos y eventos
+  - Añadir un calendario para ver los cursos y talleres
+  - Añadir un calendario para ver los emprendimientos
+*/
 const CURSOS = [
   {
     id: 1,
