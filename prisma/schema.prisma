@@ -3,48 +3,51 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
-  id             String    @id @default(uuid())
-  name           String?
-  email          String    @unique
-  password       String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(STUDENT)
-  course         Int       @default(1)
-  passedSubjects Int       @default(0)
-  messages       Message[]
+  id       String  @id @default(cuid())
+  name     String?
+  email    String  @unique
+  password String
+  role     String  @default("USER")
+  accounts      Account[]
+  sessions      Session[]
 }
 
-model Message {
-  id        String   @id @default(uuid())
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  chatId    String
-  chat      Chat     @relation(fields: [chatId], references: [id])
-}
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-model Chat {
-  id        String    @id @default(uuid())
-  name      String?
-  type      ChatType
-  createdAt DateTime  @default(now())
-  messages  Message[]
-}
-
-enum Role {
-  ADMIN
-  STUDENT
-}
-
-enum ChatType {
-  PRIVATE
-  GROUP
-  AI
+  @@unique([identifier, token])
 } 
