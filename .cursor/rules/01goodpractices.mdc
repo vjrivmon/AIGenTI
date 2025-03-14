@@ -1,0 +1,168 @@
+---
+description: Clean Code
+globs: 
+alwaysApply: false
+---
+---
+description: Reglas y buenas prácticas para el desarrollo de código limpio y mantenible
+globs: *
+---
+
+# Reglas de Código Limpio para AIGenTI
+
+## 1. Estructura y Organización del Código
+
+### 1.1 Estructura de Archivos
+```
+src/
+├── app/                # Rutas y páginas principales
+├── components/         # Componentes reutilizables
+│   ├── ui/            # Componentes base de shadcn/ui
+│   └── features/      # Componentes específicos por característica
+├── hooks/             # Custom hooks
+├── lib/               # Utilidades y configuraciones
+└── types/            # Definiciones de tipos
+```
+
+### 1.2 Convenciones de Nombrado
+- **Componentes**: PascalCase (ej: `UserProfile.tsx`)
+- **Hooks**: camelCase con prefix 'use' (ej: `useAuthState.ts`)
+- **Utilidades**: camelCase (ej: `formatDate.ts`)
+- **Constantes**: UPPER_CASE (ej: `MAX_RETRY_ATTEMPTS`)
+- **Tipos/Interfaces**: PascalCase con sufijo descriptivo (ej: `UserProfileProps`)
+
+## 2. Cuando Crees un Nuevo Componente
+
+1. **Análisis Previo**
+   - Evalúa si el componente es necesario
+   - Verifica si existe algo similar en:
+     - `components/ui/`
+     - `components/features/`
+
+2. **Estructura del Componente**
+   ```typescript
+   // Imports organizados por categorías
+   import { useState, useEffect } from 'react'
+   import { useAuth } from '@/hooks/useAuth'
+   import { Button } from '@/components/ui/button'
+   
+   // Types/Interfaces
+   interface ComponentProps {
+     // Máximo 3 props por componente
+   }
+   
+   // Constantes
+   const MAX_ITEMS = 10
+   
+   // Componente (máximo 20 líneas)
+   export function Component({ prop1, prop2 }: ComponentProps): JSX.Element {
+     // Lógica aquí
+   }
+   ```
+
+3. **Documentación Requerida**
+   ```typescript
+   /**
+    * @description Breve descripción del componente
+    * @param {PropType} prop1 - Descripción del prop
+    * @returns {JSX.Element} Elemento React
+    */
+   ```
+
+## 3. Reglas de Código
+
+### 3.1 Límites y Restricciones
+- Máximo 100 caracteres por línea
+- Máximo 3 parámetros por función
+- Máximo 20 líneas por función
+- No usar números mágicos (usar constantes nombradas)
+- Tipos de retorno explícitos obligatorios
+
+### 3.2 Patrones de Diseño
+- Preferir composición sobre herencia
+- Utilizar principios SOLID
+- Implementar patrones de diseño cuando sea apropiado
+- Mantener componentes puros y predecibles
+
+## 4. Control de Versiones
+
+### 4.1 Commits
+- Formato: `tipo(alcance): descripción`
+- Tipos válidos:
+  ```
+  feat:     Nueva característica
+  fix:      Corrección de bug
+  docs:     Documentación
+  style:    Cambios de estilo
+  refactor: Refactorización
+  test:     Tests
+  chore:    Mantenimiento
+  ```
+
+### 4.2 Ramas
+- Formato: `tipo/descripcion-breve`
+- Tipos:
+  - `feature/`
+  - `bugfix/`
+  - `hotfix/`
+  - `release/`
+
+## 5. Testing y Calidad
+
+### 5.1 Tests Requeridos
+```typescript
+describe('Component', () => {
+  it('should render correctly', () => {
+    // Test básico de renderizado
+  })
+
+  it('should handle user interactions', () => {
+    // Test de interacciones
+  })
+})
+```
+
+### 5.2 Revisión de Código
+- Verificar patrones de diseño
+- Comprobar convenciones de nombrado
+- Evaluar complejidad ciclomática
+- Revisar cobertura de tests
+
+## 6. Performance y Optimización
+
+### 6.1 React Best Practices
+- Usar React.memo para componentes puros
+- Implementar useMemo y useCallback cuando sea necesario
+- Evitar re-renders innecesarios
+- Lazy loading para componentes pesados
+
+### 6.2 Optimizaciones
+```typescript
+// Ejemplo de optimización
+const MemoizedComponent = React.memo(Component)
+const memoizedCallback = useCallback(() => {
+  // Lógica aquí
+}, [dependencies])
+```
+
+## 7. Accesibilidad
+
+- Usar elementos semánticos
+- Implementar ARIA labels
+- Asegurar navegación por teclado
+- Mantener contraste adecuado
+- Textos alternativos para imágenes
+
+## 8. Manejo de Errores
+
+```typescript
+try {
+  // Operación que puede fallar
+} catch (error) {
+  // Logging estructurado
+  logger.error('Operación fallida', {
+    error,
+    context: 'ComponentName',
+    timestamp: new Date().toISOString()
+  })
+} 

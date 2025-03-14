@@ -1,94 +1,111 @@
-# AIGenTI - Asistente Virtual para GTI UPV
+# 🎓 AIGenTI: Asistente IA para Estudiantes del Grado de Tecnologías Interactivas
 
-AIGenTI es una aplicación web diseñada para ayudar a los estudiantes del Grado en Tecnologías Interactivas de la Universidad Politécnica de Valencia. La aplicación proporciona un asistente virtual inteligente, información actualizada sobre el grado y una plataforma de comunicación entre estudiantes.
+## 🚀 Descripción
+AIGenTI es un asistente de Inteligencia Artificial diseñado específicamente para estudiantes del Grado de Tecnologías Interactivas de la UPV. Esta aplicación moderna combina tecnologías punteras para ofrecer una experiencia de usuario excepcional y un soporte académico integral.
 
-## Características principales
+## ✨ Características Principales
 
-- 🤖 **Chatbot Inteligente**: Asistente virtual especializado en resolver dudas sobre el grado
-- 📚 **FAQ**: Sección de preguntas frecuentes sobre la carrera, campus y asignaturas
-- 👥 **Perfil de Usuario**: Sistema de registro y autenticación para estudiantes
-- 💬 **Chat Comunitario**: Espacio para que los estudiantes se comuniquen entre sí
-- 📱 **Diseño Responsive**: Interfaz adaptable a cualquier dispositivo
+### 🤖 Asistente IA
+- Chatbot inteligente para resolver dudas académicas
+- Respuestas personalizadas sobre asignaturas, profesores y campus
+- Disponibilidad 24/7 para consultas
 
-## Tecnologías utilizadas
+### 📚 Sistema de FAQs
+- Preguntas frecuentes organizadas por categorías
+- Información actualizada sobre el grado
+- Búsqueda inteligente de respuestas
 
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express
-- **Base de datos**: MongoDB
-- **Autenticación**: NextAuth.js
-- **IA**: OpenAI API
-- **Comunicación en tiempo real**: Socket.io
+### 👥 Sistema de Usuarios
+- Registro e inicio de sesión seguros
+- Perfiles personalizados
+- Gestión de información académica
 
-## Requisitos previos
+### 💬 Chat entre Estudiantes
+- Salas de chat por cursos
+- Comunicación en tiempo real
+- Compartición de recursos
 
-- Node.js 18 o superior
-- MongoDB
-- Cuenta de OpenAI para la API
+### 📱 Interfaz Adaptativa
+- Diseño responsive para todos los dispositivos
+- Interfaz accesible y amigable
+- Modo oscuro/claro
 
-## Configuración del entorno
+## 🛠 Tecnologías
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Shadcn/ui
+- AI SDK para el chatbot
+- NextAuth.js para autenticación
+- Prisma como ORM
+- PostgreSQL para la base de datos
 
-1. Clona el repositorio:
-\`\`\`bash
-git clone https://github.com/tu-usuario/aigenti.git
+## 📋 Prerrequisitos
+- Node.js (v18 o superior)
+- pnpm (recomendado) o npm
+- PostgreSQL
+- Variables de entorno configuradas
+
+## 🔧 Instalación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/vjrivmon/aigenti.git
+
+# Entrar al directorio
 cd aigenti
-\`\`\`
 
-2. Instala las dependencias:
-\`\`\`bash
-npm install
-\`\`\`
+# Instalar dependencias
+pnpm install
 
-3. Crea un archivo .env con las siguientes variables:
-\`\`\`
-DATABASE_URL="tu-url-de-mongodb"
-NEXTAUTH_SECRET="tu-secreto"
-OPENAI_API_KEY="tu-api-key-de-openai"
-NEXTAUTH_URL="http://localhost:3000"
-\`\`\`
+# Configurar variables de entorno
+cp .env.example .env.local
 
-4. Inicializa la base de datos:
-\`\`\`bash
-npx prisma generate
-npx prisma db push
-\`\`\`
+# Iniciar la base de datos
+pnpm prisma migrate dev
 
-5. Inicia el servidor de desarrollo:
-\`\`\`bash
-npm run dev
-\`\`\`
+# Iniciar el servidor de desarrollo
+pnpm dev
+```
 
-## Estructura del proyecto
+## 📁 Estructura del Proyecto
+```
+├── app/                # Directorio principal de la aplicación
+│   ├── (auth)/        # Rutas de autenticación
+│   ├── (dashboard)/   # Área privada del usuario
+│   └── api/           # Endpoints de la API
+├── components/         # Componentes reutilizables
+├── hooks/             # Custom hooks
+├── lib/               # Utilidades y configuraciones
+│   ├── auth/          # Configuración de autenticación
+│   └── db/           # Configuración de base de datos
+├── public/            # Archivos estáticos
+└── styles/            # Estilos globales
+```
 
-\`\`\`
-src/
-  ├── app/              # Rutas y páginas de la aplicación
-  ├── components/       # Componentes reutilizables
-  ├── providers/        # Proveedores de contexto
-  ├── lib/             # Utilidades y configuraciones
-  └── types/           # Definiciones de tipos
-prisma/
-  └── schema.prisma    # Esquema de la base de datos
-\`\`\`
+## 🤝 Contribución
+1. Fork el proyecto
+2. Crea tu rama de feature (`git checkout -b feature/NuevaFuncionalidad`)
+3. Commit tus cambios (`git commit -m 'feat: añade nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/NuevaFuncionalidad`)
+5. Abre un Pull Request
 
-## Futuras mejoras
+## 📝 Convenciones de Código
+- Utilizamos ESLint y Prettier para mantener un código consistente
+- Seguimos los principios SOLID y Clean Code
+- Commits semánticos siguiendo Conventional Commits
+- Documentación inline en componentes críticos
+- Tests unitarios para funcionalidades core
 
-- [ ] Implementar chat grupal por asignaturas
-- [ ] Añadir sistema de notificaciones
-- [ ] Integrar calendario académico
-- [ ] Añadir sección de recursos y materiales
-- [ ] Implementar sistema de mentoría entre estudiantes
-- [ ] Añadir soporte para múltiples idiomas
-- [ ] Integrar sistema de feedback y valoraciones
-- [ ] Implementar panel de administración
+## 📄 Licencia
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
 
-## Contribución
+## 👥 Autores
+- Vicente Rivas Monferrer - Desarrollo inicial
+- Colaboradores del Grado de Tecnologías Interactivas
 
-Las contribuciones son bienvenidas. Por favor, abre un issue para discutir los cambios que te gustaría realizar.
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## Contacto
-
-Para más información o consultas, por favor contacta con el equipo de desarrollo a través de [correo@ejemplo.com]. 
+## 🙏 Agradecimientos
+- UPV por el apoyo institucional
+- Shadcn/ui por los componentes
+- Vercel por el hosting
+- La comunidad de Next.js y estudiantes beta testers 
